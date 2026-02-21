@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: soiree-jeux-backend
+    runtime: java
+    buildCommand: "./mvnw clean package -DskipTests"
+    startCommand: "java -Dspring.profiles.active=prod -jar target/*.jar"
+    envVars:
+      - key: DATABASE_URL
+        value: [COLLE ICI TON URL NEON]
+      - key: FRONTEND_URL
+        value: REMPLACER_APRES_VERCEL

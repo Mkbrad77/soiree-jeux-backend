@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender pour les logs généraux -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/soiree-jeux.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/soiree-jeux-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- File Appender spécifique pour le suivi des jeux et points -->
+    <appender name="GAME_TRACKER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/game-evolution.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} | %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/game-evolution-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Logger spécifique pour le suivi des jeux -->
+    <logger name="com.soiree.service.GameService" level="INFO" additivity="false">
+        <appender-ref ref="GAME_TRACKER"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <logger name="com.soiree.service.TeamService" level="INFO" additivity="false">
+        <appender-ref ref="GAME_TRACKER"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- Logger pour les controllers -->
+    <logger name="com.soiree.controller" level="INFO" additivity="false">
+        <appender-ref ref="GAME_TRACKER"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- Root logger -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
+
